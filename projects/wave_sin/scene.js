@@ -65,37 +65,6 @@ scene({
                 }
             }
 
-        }, {
-            id : 'circle1',
-            w : 64,
-            h : 64,
-            forFrame(pt) {
-
-                var bias = Math.abs(.5 - this.percentDone) / .5,
-                radian = Math.PI * 2 * this.percentDone,
-
-                radius = 100,
-                cx = this.viewPort.w / 2 - pt.w / 2,
-                cy = this.viewPort.h / 2 - pt.h / 2;
-
-                pt.x = cx + Math.cos(radian) * radius;
-                pt.y = cy + Math.sin(radian) * radius; ;
-
-            },
-            skin : {
-                appendRender : function (ctx, skin) {
-
-                    var pt = skin.part;
-
-                    ctx.strokeStyle = 'rgba(0,255,255,.2)';
-                    ctx.beginPath();
-                    ctx.arc(pt.w / 2, pt.h / 2, pt.w / 2, 0, Math.PI * 2);
-                    ctx.closePath();
-                    ctx.stroke();
-
-                }
-            }
-
         }
 
     ],
