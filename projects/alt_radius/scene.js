@@ -1,4 +1,44 @@
 
+
+var sinWave = function () {
+
+    var i = 0,
+    points = [],
+    bias = 1,
+    len = 50,
+    r = 0,
+    rLen = 4,
+    xOffset;
+
+    // get the points
+    while (r < rLen) {
+
+        xOffset = 460 / rLen * r;
+
+        points.push({
+            x : 10 + xOffset,
+            y : 180
+        });
+
+        i = 0;
+        while (i < len + 1) {
+
+            points.push({
+                x : 10 + 460 / (len * rLen) * i + xOffset,
+                y : 180 - 160 * bias * Math.sin(Math.PI * 2 * (i / len))
+            });
+
+            i += 1;
+
+        }
+
+        r += 1;
+    }
+
+    return points;
+
+};
+
 scene({
 
     maxFrame : 50,
@@ -33,36 +73,66 @@ scene({
                 appendRender : function (ctx, skin) {
 
                     var pt = skin.part,
-                    bias = Math.abs(.5 - this.percentDone) / .5;
+                    bias = Math.abs(.5 - this.percentDone) / .5,
+                    points;
+
+                    ctx.lineWidth = 3;
 
                     // red line
-                    ctx.strokeStyle = 'rgba(0,255,255,.2)';
+                    ctx.strokeStyle = 'rgba(255,0,0,1)';
                     ctx.beginPath();
                     ctx.moveTo(10, 180);
                     ctx.lineTo(470, 180);
                     ctx.stroke();
 
+                    points = sinWave();
+
+                    ctx.strokeStyle = 'rgba(255,255,255,1)';
+                    ctx.beginPath();
+                    points.forEach(function (point) {
+
+                        ctx.lineTo(point.x, point.y);
+
+                    });
+                    ctx.stroke();
+
+                    /*
                     var i = 0,
                     len = 50,
+                    r = 0,
+                    rLen = 4,
                     x,
-                    y;
+                    y,
 
-                    ctx.strokeStyle = 'rgba(0,255,255,.8)';
+                    xOffset;
+
+                    ctx.strokeStyle = 'rgba(255,255,255,1)';
+                    while (r < rLen) {
+
+                    xOffset = 460 / rLen * r;
+
                     ctx.beginPath();
-                    ctx.moveTo(10, 180);
+                    ctx.moveTo(10 + xOffset, 180);
+
+                    i = 0;
                     while (i < len + 1) {
 
-                        x = 10 + 460 / len * i;
-                        y = 180 - 160 * bias * Math.sin(Math.PI * 2 * (i / len));
-                        ctx.lineTo(x, y);
+                    x = 10 + 460 / (len * rLen) * i + xOffset;
+                    y = 180 - 160 * bias * Math.sin(Math.PI * 2 * (i / len));
+                    ctx.lineTo(x, y);
 
-                        i += 1;
+                    i += 1;
 
                     }
 
                     ctx.stroke();
 
+                    r += 1;
+                    }
+
+                     */
                 }
+
             }
 
         }, {
@@ -87,7 +157,8 @@ scene({
 
                     var pt = skin.part;
 
-                    ctx.strokeStyle = 'rgba(0,255,255,.2)';
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'rgba(0,255,255,1)';
                     ctx.beginPath();
                     ctx.arc(pt.w / 2, pt.h / 2, pt.w / 2, 0, Math.PI * 2);
                     ctx.closePath();
