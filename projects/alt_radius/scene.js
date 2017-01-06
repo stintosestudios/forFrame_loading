@@ -5,9 +5,9 @@ var sinWave = function () {
     var i = 0,
     points = [],
     bias = 1,
-    len = 50,
+    len = 100,
     r = 0,
-    rLen = 4,
+    rLen = 3,
     xOffset;
 
     // get the points
@@ -25,7 +25,7 @@ var sinWave = function () {
 
             points.push({
                 x : 10 + 460 / (len * rLen) * i + xOffset,
-                y : 180 - 160 * bias * Math.sin(Math.PI * 2 * (i / len))
+                y : 180 - 50 * bias * Math.sin(Math.PI * 2 * (i / len))
             });
 
             i += 1;
@@ -41,7 +41,7 @@ var sinWave = function () {
 
 scene({
 
-    maxFrame : 50,
+    maxFrame : 100,
 
     viewPort : {
 
@@ -96,60 +96,27 @@ scene({
                     });
                     ctx.stroke();
 
-                    /*
-                    var i = 0,
-                    len = 50,
-                    r = 0,
-                    rLen = 4,
-                    x,
-                    y,
-
-                    xOffset;
-
-                    ctx.strokeStyle = 'rgba(255,255,255,1)';
-                    while (r < rLen) {
-
-                    xOffset = 460 / rLen * r;
-
-                    ctx.beginPath();
-                    ctx.moveTo(10 + xOffset, 180);
-
-                    i = 0;
-                    while (i < len + 1) {
-
-                    x = 10 + 460 / (len * rLen) * i + xOffset;
-                    y = 180 - 160 * bias * Math.sin(Math.PI * 2 * (i / len));
-                    ctx.lineTo(x, y);
-
-                    i += 1;
-
-                    }
-
-                    ctx.stroke();
-
-                    r += 1;
-                    }
-
-                     */
                 }
 
             }
 
         }, {
             id : 'circle1',
-            w : 64,
-            h : 64,
+            w : 32,
+            h : 32,
             forFrame(pt) {
 
                 var bias = Math.abs(.5 - this.percentDone) / .5,
                 radian = Math.PI * 2 * this.percentDone,
-
-                radius = 100,
+                points = sinWave(),
+                pointIndex = Math.floor(points.length * this.percentDone),
+                pointPer = (points[pointIndex].y - (180 - 50)) / 100,
+                radius = 32 + 96 * pointPer,
                 cx = this.viewPort.w / 2 - pt.w / 2,
                 cy = this.viewPort.h / 2 - pt.h / 2;
 
                 pt.x = cx + Math.cos(radian) * radius;
-                pt.y = cy + Math.sin(radian) * radius; ;
+                pt.y = cy + Math.sin(radian) * radius;
 
             },
             skin : {
