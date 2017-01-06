@@ -37,7 +37,42 @@ var sinWave = function () {
 
     return points;
 
-};
+},
+
+// (use with call in a forFrame)
+setCircle = function (pt, circleIndex, circleLen) {
+
+    var bias = Math.abs(.5 - this.percentDone) / .5,
+    radian,
+    points = sinWave(),
+    pointIndex,
+    pointPer,
+    radius,
+    cx = this.viewPort.w / 2 - pt.w / 2,
+    cy = this.viewPort.h / 2 - pt.h / 2;
+
+    radian = Math.PI * 2 * this.percentDone + Math.PI * 2 / circleLen * (circleIndex-1);
+
+    pointIndex = Math.floor(points.length * this.percentDone) + (points.length / 2 * (circleLen-1));
+
+    if (pointIndex >= points.length) {
+
+        pointIndex = pointIndex % points.length;
+
+    }
+
+	
+	pointPer = (points[pointIndex].y - (180 - 50)) / 100;
+	
+	
+    radius = 32 + 96 * pointPer;
+
+	//radius = 32 + 96 * 1;
+	
+    pt.x = cx + Math.cos(radian) * radius;
+    pt.y = cy + Math.sin(radian) * radius;
+
+}
 
 scene({
 
@@ -106,17 +141,56 @@ scene({
             h : 32,
             forFrame(pt) {
 
-                var bias = Math.abs(.5 - this.percentDone) / .5,
-                radian = Math.PI * 2 * this.percentDone,
-                points = sinWave(),
-                pointIndex = Math.floor(points.length * this.percentDone),
-                pointPer = (points[pointIndex].y - (180 - 50)) / 100,
-                radius = 32 + 96 * pointPer,
-                cx = this.viewPort.w / 2 - pt.w / 2,
-                cy = this.viewPort.h / 2 - pt.h / 2;
+                setCircle.call(this, pt, 1, 3);
 
-                pt.x = cx + Math.cos(radian) * radius;
-                pt.y = cy + Math.sin(radian) * radius;
+            },
+            skin : {
+                appendRender : function (ctx, skin) {
+
+                    var pt = skin.part;
+
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'rgba(0,255,255,1)';
+                    ctx.beginPath();
+                    ctx.arc(pt.w / 2, pt.h / 2, pt.w / 2, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                }
+            }
+
+        }, {
+            id : 'circle2',
+            w : 32,
+            h : 32,
+            forFrame(pt) {
+
+                setCircle.call(this, pt, 2, 3);
+
+            },
+            skin : {
+                appendRender : function (ctx, skin) {
+
+                    var pt = skin.part;
+
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'rgba(0,255,255,1)';
+                    ctx.beginPath();
+                    ctx.arc(pt.w / 2, pt.h / 2, pt.w / 2, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                }
+            }
+
+        },
+		{
+            id : 'circle3',
+            w : 32,
+            h : 32,
+            forFrame(pt) {
+
+                setCircle.call(this, pt, 3, 3);
 
             },
             skin : {
