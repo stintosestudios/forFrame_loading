@@ -1,7 +1,7 @@
 
 scene({
 
-    maxFrame : 100,
+    maxFrame : 50,
 
     viewPort : {
 
@@ -52,7 +52,7 @@ scene({
 
         }, {
 
-            id : 'lower_left',
+            id : 'lower_right',
             w : 32,
             h : 128,
 
@@ -79,6 +79,35 @@ scene({
             }
 
         },
+        {
+
+            id : 'lower_left',
+            w : 32,
+            h : 128,
+
+            forFrame : function (pt) {
+
+                var bias = Math.abs(.5 - this.percentDone) / .5,
+                radian = .2 - .4 * bias,
+                cx = this.viewPort.w / 2 - pt.w / 2,
+                cy = this.viewPort.h / 2 - pt.h / 2;
+
+                pt.x = cx - Math.cos(radian) * 128;
+                pt.y = cy - Math.sin(radian) * 128 + 64;
+
+            },
+            skin : {
+
+                appendRender : function (ctx, skin) {
+
+                    ctx.strokeStyle = '#00ffff';
+                    ctx.strokeRect(0, 0, skin.part.w, skin.part.h);
+
+                }
+
+            }
+
+        }
 
     ],
 
