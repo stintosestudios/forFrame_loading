@@ -54,7 +54,7 @@ scene({
 
             id : 'lower_right',
             w : 32,
-            h : 128,
+            h : 100,
 
             forFrame : function (pt) {
 
@@ -74,16 +74,19 @@ scene({
                     ctx.strokeStyle = '#00ffff';
                     ctx.strokeRect(0, 0, skin.part.w, skin.part.h);
 
+                    ctx.translate(0, -32);
+                    ctx.rotate(Math.PI);
+                    ctx.strokeRect(-skin.part.w, 0, skin.part.w, skin.part.h);
+
                 }
 
             }
 
-        },
-        {
+        }, {
 
             id : 'lower_left',
             w : 32,
-            h : 128,
+            h : 100,
 
             forFrame : function (pt) {
 
@@ -102,6 +105,10 @@ scene({
 
                     ctx.strokeStyle = '#00ffff';
                     ctx.strokeRect(0, 0, skin.part.w, skin.part.h);
+
+                    ctx.translate(0, -32);
+                    ctx.rotate(Math.PI);
+                    ctx.strokeRect(-skin.part.w, 0, skin.part.w, skin.part.h);
 
                 }
 
